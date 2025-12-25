@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>hedha lik enti ya rouhi ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Georgia', 'Times New Roman', serif;
+    }
+
+    body {
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* BLURRED BACKGROUND */
+    .bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(rgba(139, 0, 139, 0.3), rgba(0, 0, 139, 0.3)), 
+                  url('https://images.unsplash.com/photo-1518834103328-922d6fcc01a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+      background-size: cover;
+      background-position: center;
+      filter: blur(8px);
+      z-index: -2;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: -1;
+    }
+
+    /* HIDDEN AUDIO PLAYER (auto-plays) */
+    #background-music {
+      display: none;
+    }
+
+    /* MUSIC CONTROLS */
+    .music-controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .music-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .music-btn:hover {
+      background: rgba(255, 20, 147, 0.3);
+      transform: scale(1.1);
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 800px;
+    }
+
+    .hero h1 {
+      font-size: 4.5rem;
+      margin-bottom: 20px;
+      background: linear-gradient(45deg, #ff69b4, #8a2be2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px rgba(255, 105, 180, 0.3); }
+      to { text-shadow: 0 0 20px rgba(255, 105, 180, 0.6), 0 0 30px rgba(138, 43, 226, 0.4); }
+    }
+
+    .hero p {
+      font-size: 1.8rem;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+
+    /* SECRET BUTTONS FOR ANIMATIONS */
+    .secret-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .secret-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 105, 180, 0.5);
+      color: white;
+      padding: 12px 25px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .secret-btn:hover {
+      background: rgba(255, 105, 180, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(255, 105, 180, 0.3);
+    }
+
+    /* GALLERY */
+    .gallery {
+      padding: 100px 20px;
+      text-align: center;
+    }
+
+    .gallery h2 {
+      font-size: 3rem;
+      margin-bottom: 60px;
+      color: #ff69b4;
+    }
+
+    .photos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .photos img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .photos img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 40px rgba(255, 105, 180, 0.4);
+    }
+
+    /* VIDEO (MUTED, AUTOPLAY) */
+    .video-section {
+      padding: 100px 20px;
+      text-align: center;
+    }
+
+    .video-section h2 {
+      font-size: 3rem;
+      margin-bottom: 60px;
+      color: #9370db;
+    }
+
+    .video-box {
+      max-width: 800px;
+      margin: 0 auto;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+    }
+
+    .video-box video {
+      width: 100%;
+      display: block;
+    }
+
+    /* MESSAGE */
+    .message {
+      padding: 120px 20px;
+      text-align: center;
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9));
+    }
+
+    .message p {
+      font-size: 2.2rem;
+      max-width: 800px;
+      margin: 0 auto 40px;
+      line-height: 1.8;
+      font-style: italic;
+      color: #fffacd;
+    }
+
+    .message span {
+      font-size: 1.3rem;
+      color: #ffb6c1;
+      letter-spacing: 3px;
+    }
+
+    /* SPECIAL ANIMATION ELEMENTS */
+    .hearts-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 24px;
+      color: #ff69b4;
+      opacity: 0;
+      animation: floatHeart 5s linear forwards;
+    }
+
+    @keyframes floatHeart {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .fireworks {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    .firework {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      animation: explode 1s ease-out forwards;
+    }
+
+    @keyframes explode {
+      0% {
+        transform: translateY(100vh);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(var(--random-y)) translateX(var(--random-x));
+        opacity: 0;
+      }
+    }
+
+    /* LOVE NOTES SECTION */
+    .love-notes {
+      padding: 100px 20px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .love-notes h2 {
+      font-size: 3rem;
+      margin-bottom: 60px;
+      color: #ff1493;
+    }
+
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .note {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .note:hover {
+      transform: translateY(-10px);
+      background: rgba(255, 105, 180, 0.2);
+      box-shadow: 0 15px 30px rgba(255, 105, 180, 0.3);
+    }
+
+    /* COUNTDOWN */
+    .countdown {
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .countdown h2 {
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      color: #ba55d3;
+    }
+
+    .countdown-container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .countdown-box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 15px;
+      min-width: 150px;
+      backdrop-filter: blur(10px);
+    }
+
+    .countdown-number {
+      font-size: 3rem;
+      color: #ff69b4;
+      font-weight: bold;
+    }
+
+    .countdown-label {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      opacity: 0.8;
+    }
+
+    /* SPECIAL MESSAGE POPUP */
+    .message-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: rgba(0, 0, 0, 0.9);
+      padding: 40px;
+      border-radius: 20px;
+      border: 2px solid #ff69b4;
+      z-index: 1000;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      transition: transform 0.5s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .message-popup.active {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .message-popup h3 {
+      color: #ff69b4;
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .close-popup {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 3rem;
+      }
+      
+      .hero p {
+        font-size: 1.4rem;
+      }
+      
+      .photos {
+        grid-template-columns: 1fr;
+      }
+      
+      .message p {
+        font-size: 1.8rem;
+      }
+      
+      .countdown-container {
+        gap: 15px;
+      }
+      
+      .countdown-box {
+        min-width: 120px;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND MUSIC (auto plays, hidden) -->
+  <audio id="background-music" autoplay loop>
+    <source src="snn.mp3.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- BLURRED BACKGROUND -->
+  <div class="bg"></div>
+  <div class="overlay"></div>
+
+  <!-- ANIMATION CONTAINERS -->
+  <div class="hearts-container" id="hearts-container"></div>
+  <div class="fireworks" id="fireworks"></div>
+
+  <!-- MUSIC CONTROL -->
+  <div class="music-controls">
+    <button class="music-btn" id="music-toggle">
+      <i class="fas fa-volume-up"></i>
+    </button>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Our Love Story</h1>
+      <p>
+        THIS PAGE IS ABOUT HOW I FEEL ABOUT YOU 
+        EVERY PICTURE AND EVERY VDEO REMINDS ME WHY YOU ARE SPECIAL TO ME
+      </p>
+      <p>
+        
+      </p>
+      
+      <!-- SECRET ANIMATION BUTTONS -->
+      <div class="secret-buttons">
+        <button class="secret-btn" onclick="createHearts()">💕 inzil al faza hedhy ytl3ou 9loub</button>
+        <button class="secret-btn" onclick="createFireworks()">🎆 w hedhy faza okhra</button>
+        <button class="secret-btn" onclick="showLoveMessage()">💌 w hedha message lik enti</button>
+        <button class="secret-btn" onclick="changeBackground()">mn hne tajm tbdl taswira</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <section class="countdown">
+    <h2>za3ma kadeh aana maa badhna ? ❤️</h2>
+    <div class="countdown-container">
+      <div class="countdown-box">
+        <div class="countdown-number" id="days">0</div>
+        <div class="countdown-label">Days</div>
+      </div>
+      <div class="countdown-box">
+        <div class="countdown-number" id="hours">0</div>
+        <div class="countdown-label">Hours</div>
+      </div>
+      <div class="countdown-box">
+        <div class="countdown-number" id="minutes">0</div>
+        <div class="countdown-label">Minutes</div>
+      </div>
+      <div class="countdown-box">
+        <div class="countdown-number" id="seconds">0</div>
+        <div class="countdown-label">Seconds</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery">
+    <h2>w hedhy saghrounti ❤️</h2>
+    <div class="photos">
+      <img src="is1.png.jpg" alt="TASWIRA LOULA" onclick="showPhotoMessage(1)">
+      <img src="is5.jpg.jpeg" alt="TASWIRA THENYA" onclick="showPhotoMessage(2)">
+      <img src="is3.png.png" alt="TASWIRA TELTHA" onclick="showPhotoMessage(3)">
+    </div>
+  </section>
+
+  <!-- LOVE NOTES -->
+  <section class="love-notes">
+    <h2>Whehda aleh ena nhbk 💖</h2>
+    <div class="notes-grid">
+      <div class="note" onclick="showNoteMessage('Your smile makes every day brighter')">Your Smile ☀️</div>
+      <div class="note" onclick="showNoteMessage('Your laugh is my favorite sound')">Your Laugh 😊</div>
+      <div class="note" onclick="showNoteMessage('You make me a better person')">Your Influence 🌟</div>
+      <div class="note" onclick="showNoteMessage('You understand me like no one else')">Your Understanding 💫</div>
+    </div>
+  </section>
+
+  <!-- VIDEO -->
+  <section class="video-section">
+    <h2>🎥</h2>
+    <div class="video-box">
+      <video autoplay muted loop playsinline>
+        <source src="is.mp4.mp4" type="video/mp4">
+      </video>
+    </div>
+  </section>
+
+  <!-- MESSAGE -->
+  <section class="message">
+    <p>
+      Loving you isn't about perfection.  
+      It's about choosing you, every single day.  
+      Through all the moments, big and small,  
+      My heart finds its home in yours.
+    </p>
+    <span>— Forever Yours</span>
+  </section>
+
+  <!-- MESSAGE POPUP -->
+  <div class="message-popup" id="messagePopup">
+    <button class="close-popup" onclick="closePopup()">&times;</button>
+    <h3 id="popupTitle">My Love 💕</h3>
+    <p id="popupMessage">You mean everything to me</p>
+  </div>
+
+  <script>
+    // MUSIC CONTROL
+    const music = document.getElementById('background-music');
+    const musicToggle = document.getElementById('music-toggle');
+    
+    // Auto-play music with user interaction
+    document.addEventListener('click', function() {
+      music.play().catch(e => console.log("Autoplay prevented"));
+    }, { once: true });
+
+    musicToggle.addEventListener('click', function() {
+      if (music.paused) {
+        music.play();
+        musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+      } else {
+        music.pause();
+        musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+      }
+    });
+
+    // COUNTDOWN TIMER (Set your anniversary date)
+    const anniversary = new Date('2025-10-30').getTime();
+    
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const timeTogether = now - anniversary;
+      
+      const days = Math.floor(timeTogether / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeTogether % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeTogether % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeTogether % (1000 * 60)) / 1000);
+      
+      document.getElementById('days').textContent = days;
+      document.getElementById('hours').textContent = hours;
+      document.getElementById('minutes').textContent = minutes;
+      document.getElementById('seconds').textContent = seconds;
+    }
+    
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // CREATE HEARTS ANIMATION
+    function createHearts() {
+      const container = document.getElementById('hearts-container');
+      for (let i = 0; i < 50; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerHTML = '❤️';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+        heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+        container.appendChild(heart);
+        
+        setTimeout(() => {
+          heart.remove();
+        }, 5000);
+      }
+    }
+
+    // CREATE FIREWORKS
+    function createFireworks() {
+      const container = document.getElementById('fireworks');
+      for (let i = 0; i < 100; i++) {
+        const firework = document.createElement('div');
+        firework.className = 'firework';
+        firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+        firework.style.left = Math.random() * 100 + 'vw';
+        firework.style.setProperty('--random-x', (Math.random() * 200 - 100) + 'px');
+        firework.style.setProperty('--random-y', (Math.random() * 100) + 'vh');
+        firework.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
+        container.appendChild(firework);
+        
+        setTimeout(() => {
+          firework.remove();
+        }, 1000);
+      }
+    }
+
+    // CHANGE BACKGROUND
+    const backgrounds = [
+      'linear-gradient(rgba(139, 0, 139, 0.3), rgba(0, 0, 139, 0.3)), url(https://images.unsplash.com/photo-1518834103328-922d6fcc01a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80)',
+      'linear-gradient(rgba(255, 20, 147, 0.3), rgba(0, 100, 200, 0.3)), url(https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80)',
+      'linear-gradient(rgba(220, 20, 60, 0.3), rgba(75, 0, 130, 0.3)), url(https://images.unsplash.com/photo-1511497584788-876760111969?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q)'
+    ];
+    
+    let bgIndex = 0;
+    function changeBackground() {
+      const bg = document.querySelector('.bg');
+      bgIndex = (bgIndex + 1) % backgrounds.length;
+      bg.style.backgroundImage = backgrounds[bgIndex];
+      createHearts();
+    }
+
+    // SHOW POPUP MESSAGES
+    const popup = document.getElementById('messagePopup');
+    const popupTitle = document.getElementById('popupTitle');
+    const popupMessage = document.getElementById('popupMessage');
+    
+    function showLoveMessage() {
+      popupTitle.textContent = "My Love 💝";
+      popupMessage.textContent = "Every moment with you is a treasure. You're the most amazing person I've ever known, and I fall for you more every single day.";
+      popup.classList.add('active');
+      createHearts();
+    }
+    
+    function showPhotoMessage(photoNum) {
+      const messages = [
+        "HEDHYA AADA AWEL TASWIRA TIBATHELI",
+        "W HEDHY MIN AKTHR TSAWIR LI TAJBNI",
+        "W TASWIRA HEDHY TAAJBNI YASIR "
+      ];
+      popupTitle.textContent = "TASWIRA #" + photoNum + " 📸";
+      popupMessage.textContent = messages[photoNum - 1];
+      popup.classList.add('active');
+    }
+    
+    function showNoteMessage(message) {
+      popupTitle.textContent = "Why I Love You 💖";
+      popupMessage.textContent = message;
+      popup.classList.add('active');
+      createHearts();
+    }
+    
+    function closePopup() {
+      popup.classList.remove('active');
+    }
+
+    // AUTO ANIMATIONS ON LOAD
+    window.addEventListener('load', function() {
+      setTimeout(createHearts, 1000);
+      setTimeout(createFireworks, 2000);
+    });
+
+    // CLICK ANYWHERE FOR HEARTS
+    document.addEventListener('click', function(e) {
+      if (!e.target.classList.contains('secret-btn') && 
+          !e.target.classList.contains('music-btn') &&
+          !e.target.closest('.message-popup')) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerHTML = '❤️';
+        heart.style.left = e.clientX + 'px';
+        heart.style.top = e.clientY + 'px';
+        heart.style.fontSize = '20px';
+        heart.style.position = 'fixed';
+        document.getElementById('hearts-container').appendChild(heart);
+        
+        setTimeout(() => {
+          heart.remove();
+        }, 3000);
+      }
+    });
+  </script>
+</body>
+</html>
